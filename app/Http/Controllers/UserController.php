@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateDepartmentUserRequest;
+use App\Http\Requests\UpdateRoleUserRequest;
 use App\Http\Requests\UserProfileRequest;
 
 use App\Models\Department;
@@ -46,7 +48,7 @@ class UserController extends Controller
         }
     }
 
-    public function updateDepartment(Request $request, $id)
+    public function updateDepartment(UpdateDepartmentUserRequest $request, $id)
     {
 
         $this->authorize('updateDepartmentPolicy', User::class);
@@ -64,7 +66,7 @@ class UserController extends Controller
         }
     }
 
-    public function updateRole(Request $request, $id)
+    public function updateRole(UpdateRoleUserRequest $request, $id)
     {
         $this->authorize('updateRoleUserPolicy', User::class);
 

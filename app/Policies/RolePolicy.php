@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class RolePolicy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    public function view(User $user)
+    {
+        return true;
+    }
+    public function create(User $user)
+    {
+        return auth()->user()->roles()->first()->name == 'admin';
+    }
+
+    public function delete(User $user, User $model)
+    {
+        dd(1);
+    }
+}

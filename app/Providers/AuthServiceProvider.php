@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
 use App\Policies\DepartmentPolicy;
-use App\Policies\TestPolicy;
+use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -21,7 +22,8 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Department::class => DepartmentPolicy::class,
         User::class => UserPolicy::class,
-//        Department::class => TestPolicy::class,
+        Role::class=>RolePolicy::class
+
     ];
 
     /**

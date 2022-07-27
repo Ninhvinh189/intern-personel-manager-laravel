@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DepartmentRequest;
+use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
 use App\Models\User;
 use App\Policies\DepartmentPolicy;
@@ -20,7 +21,7 @@ class DepartmentController extends Controller
     public function __construct(DepartmentRepository $departmentRepo)
     {
         $this->departmentRepo = $departmentRepo;
-        $this->authorizeResource(Department::class, 'department');
+//        $this->authorizeResource(Department::class);
     }
 
     /**
@@ -49,7 +50,7 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
         try {
             $this->departmentRepo->createDepartment($request);
@@ -96,10 +97,8 @@ class DepartmentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
+    public function update(UpdateDepartmentRequest $request, $id)
     {
-        $this->authorize('update',Department::class);
-
         try {
             $this->departmentRepo->updateDepartment($request, $id);
             return response([
@@ -137,23 +136,23 @@ class DepartmentController extends Controller
         }
     }
 
-    public function updateDepartment(Request $request, $id)
-    {
-        dd(1);
-        $this->authorize('updateDepartmentPolicy', [Department::class]);
+//    public function updateDepartment(UpdateDepartmentRequest $request, $id, Department $department)
+//    {
+//        $this->authorize('updateDepartmentPolicy', $department);
+//
+//        try {
+//            $this->departmentRepo->updateDepartment($request, $id);
+//            return response([
+//                "message" => "Cập nhật thông tin phòng ban thành công",
+//                "status" => "201"
+//            ]);
+//        }catch (\Exception $e)
+//        {
+//            return response([
+//                "message"=>"Cập nhật không thành công",
+//                "status"=>"500"
+//            ]);
+//        }
+//    }
 
-        try {
-            $this->departmentRepo->updateDepartment($request, $id);
-            return response([
-                "message" => "Cập nhật thông tin phòng ban thành công",
-                "status" => "201"
-            ]);
-        }catch (\Exception $e)
-        {
-            return response([
-                "message"=>"Cập nhật không thành công",
-                "status"=>"500"
-            ]);
-        }
-    }
 }
