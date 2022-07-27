@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserProfileRequest;
+
+use App\Models\Department;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -21,9 +24,8 @@ class UserController extends Controller
         return $this->userRepo->getAll();
     }
 
-    public function updateProfile(Request $request, $id)
+    public function updateProfile(UserProfileRequest $request, $id)
     {
-        $this->userRepo->findLeaderUser($id);
 
         $user_res = $this->userRepo->find($id);
         $leader = $this->userRepo->checkLeaderUser($id);
@@ -32,7 +34,6 @@ class UserController extends Controller
 
         try {
             $this->userRepo->updateProfileUser($request, $id);
-
             return response([
                "message" => "update thanh cong"
             ]);
@@ -78,9 +79,12 @@ class UserController extends Controller
 
     public function destroyUser($id)
     {
+        $user_res = $this->userRepo->find($id);
+        $leader = $this->userRepo->checkLeaderUser($id);
+
+        $this->authorize('deleteUserPolicy', [User::class, $leader]);
+
         try {
-            $leader = $this->userRepo->checkLeaderUser($id);
-            $this->authorize('deleteUserPolicy',[$id, $leader]);
             $this->userRepo->deleteUser($id);
             return response([
                 "message" => "Xoa thanh cong"

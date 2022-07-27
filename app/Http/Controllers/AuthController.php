@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +21,7 @@ class AuthController extends Controller
         return view('backend.auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         return User::create([
             'name' => $request->input('firstName').''.$request->input('lastName'),
@@ -27,7 +30,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
         try{

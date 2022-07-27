@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
+use App\Models\User;
+use App\Policies\DepartmentPolicy;
 use App\Repositories\DepartmentRepository;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Http\Middleware\Authenticate;
 
 class DepartmentController extends Controller
 {
@@ -15,7 +20,7 @@ class DepartmentController extends Controller
     public function __construct(DepartmentRepository $departmentRepo)
     {
         $this->departmentRepo = $departmentRepo;
-        $this->authorizeResource(Department::class,'department');
+        $this->authorizeResource(Department::class, 'department');
     }
 
     /**
@@ -90,8 +95,11 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
+        $this->authorize('update',Department::class);
+
         try {
             $this->departmentRepo->updateDepartment($request, $id);
             return response([
@@ -105,6 +113,7 @@ class DepartmentController extends Controller
                 "status"=>"500"
             ]);
         }
+
     }
 
     /**
@@ -128,4 +137,23 @@ class DepartmentController extends Controller
         }
     }
 
+    public function updateDepartment(Request $request, $id)
+    {
+        dd(1);
+        $this->authorize('updateDepartmentPolicy', [Department::class]);
+
+        try {
+            $this->departmentRepo->updateDepartment($request, $id);
+            return response([
+                "message" => "Cập nhật thông tin phòng ban thành công",
+                "status" => "201"
+            ]);
+        }catch (\Exception $e)
+        {
+            return response([
+                "message"=>"Cập nhật không thành công",
+                "status"=>"500"
+            ]);
+        }
+    }
 }

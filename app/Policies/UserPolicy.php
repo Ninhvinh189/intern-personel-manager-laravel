@@ -53,7 +53,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        dd(1);
+
     }
 
     /**
@@ -110,6 +110,7 @@ class UserPolicy
 
     public function updateProfileUserPolicy(User $user, User $user_res, $leader)
     {
+
         $role_user = $user->roles()->first();
         if ($role_user->name == "user")
         {
@@ -118,10 +119,10 @@ class UserPolicy
         {
             return true;
         }
-        return $user->name == "admin";
+        return $role_user->name == "admin";
     }
 
-    public function deleteUserPolicy(User $user, $id, $leader)
+    public function deleteUserPolicy(User $user, $leader)
     {
         $check = $user->roles()->first();
         if ($check->name == 'leader' && $leader==true)

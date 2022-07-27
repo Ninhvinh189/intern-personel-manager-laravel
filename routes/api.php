@@ -34,7 +34,7 @@ Route::group(['middleware'=>['jwt']],function ()
     {
         Route::get("/department",[\App\Http\Controllers\DepartmentController::class,'index']);
         Route::post("/create",[\App\Http\Controllers\DepartmentController::class,'store']);
-        Route::post("/update/{department}",[\App\Http\Controllers\DepartmentController::class,'update']);
+        Route::post("/update/{department}",[\App\Http\Controllers\DepartmentController::class,'updateDepartment']);
         Route::delete("/delete/{department}",[\App\Http\Controllers\DepartmentController::class,'destroy']);
     });
 

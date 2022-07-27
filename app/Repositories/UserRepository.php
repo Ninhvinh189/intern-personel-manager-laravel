@@ -15,32 +15,33 @@ class UserRepository extends BaseRepository
         parent::__construct($model);
     }
 
-
-
     public function updateProfileUser($request, $id)
     {
+
         DB::beginTransaction();
         try{
             $user = $this->model->find($id)->load('profile');
-            $user->name = $request->name;
+            $user->name =  $request->input('firstName').''.$request->input('lastName');
             $user->save();
 
-//            $file = $request->avatar;
-//            $newFile = Str::uuid($file->getClientOriginalName());
-//
-//            $path = $newFile.'.'.$file->getClientOriginalExtension();
-//            $file->move(public_path('images'),$path);
+            $file = $request->avatar;
+
+            $newFile = Str::uuid($file->getClientOriginalName());
+
+            $path = $newFile.'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('images'),$path);
 
             $user->profile()->updateOrCreate(
                 [
                     'user_id'=> $id
                 ], [
                 'phone'=>$request->phone,
-//                'avatar' => $path,
-//                'date_of_birth'=>$request->date_of_birth,
+                'avatar' => $path,
+                'date_of_birth'=>$request->date_of_birth,
                 'address' => $request->address,
-//                'description'=>$request->description,
+                'description'=>$request->description
             ]);
+
             DB::commit();
 
         }catch (Exception $e)
@@ -54,7 +55,7 @@ class UserRepository extends BaseRepository
     {
         DB::beginTransaction();
         try{
-            $user = $this->find($id);;
+            $user = $this->find($id);
             $user->departments()->sync($request->department);
             DB::commit();
         }catch (Exception $e)
@@ -66,6 +67,7 @@ class UserRepository extends BaseRepository
 
     public function updateRoleUser($request, $id)
     {
+
         DB::beginTransaction();
         try{
             $user = $this->find($id);
@@ -97,13 +99,10 @@ class UserRepository extends BaseRepository
 
     }
 
-    public function findLeaderUser($id)
-    {
-
-    }
 
     public function checkLeaderUser($id)
     {
+
         $department =  $this->find($id)->departments()->first();
         $departmentAuth = auth()->user()->departments()->first();
         return $departmentAuth->id == $department->id;
