@@ -39,8 +39,7 @@ class AuthController extends Controller
             {
                 return $this->respondWithToken($token);
             }
-        }catch (UnauthorizedException $exception)
-        {
+        }catch (UnauthorizedException $exception) {
           return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
@@ -48,7 +47,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return response("Ok");
+        return response('Ok');
     }
 
     public function user()

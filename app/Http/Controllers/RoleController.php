@@ -16,15 +16,15 @@ class RoleController extends Controller
     public function __construct(RoleRepository $roleRepository)
     {
         $this->roleRepo=$roleRepository;
-        $this->authorizeResource(Role::class);
+//        $this->authorizeResource(Role::class);
     }
 
     protected function resourceAbilityMap()
     {
         return array_merge(parent::resourceAbilityMap(), [
             'index' => 'view',
-            'store'=>'create',
-            'destroy'=>'delete',
+            'store' => 'create',
+            'destroy' => 'delete',
         ]);
     }
 
@@ -38,28 +38,25 @@ class RoleController extends Controller
         try {
             $this->roleRepo->createRole($request);
             return response([
-               'message'=>'Them quyen thanh cong'
+               "message" => "Them quyen thanh cong"
             ]);
-        }catch (\Exception $e)
-        {
+        }catch (\Exception $e) {
             return response([
-               'message'=>'Tao quyen khong thanh cong'
+               "message" => "Tao quyen khong thanh cong"
             ]);
         }
     }
-
 
     public function destroy($id)
     {
         try {
             $this->roleRepo->delete($id);
             return response([
-                'message'=>'Xoa quyen thanh cong'
+                "message" => "Xoa quyen thanh cong"
             ]);
-        }catch (\Exception $e)
-        {
+        }catch (\Exception $e) {
             return response([
-                'message'=>'Xoa quyen khong thanh cong'
+                "message" => "Xoa quyen khong thanh cong"
             ]);
         }
     }

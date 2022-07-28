@@ -17,8 +17,14 @@ class DepartmentRepository extends BaseRepository
     {
         DB::beginTransaction();
         try {
-            $fillData = $this->model->fill($request->all());
+            $param = [
+                'name' => $request->name,
+                'number_of_member' => $request->number_of_member,
+                'description' => $request->description
+            ];
+            $fillData = $this->model->fill($param);
             $this->create($fillData->toArray());
+
             DB::commit();
         }catch (Exception $e)
         {
@@ -30,7 +36,12 @@ class DepartmentRepository extends BaseRepository
 
     public function updateDepartment($request , $id)
     {
-        $fillData = $this->model->fill($request->all());
+        $param = [
+            'name' => $request->name,
+            'number_of_member' => $request->number_of_member,
+            'description' => $request->description
+        ];
+        $fillData = $this->model->fill($param);
         $this->update($id,$fillData->toArray());
     }
 

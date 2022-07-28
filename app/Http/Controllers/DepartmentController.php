@@ -58,8 +58,7 @@ class DepartmentController extends Controller
                 "message" => "Thêm phòng ban thành công",
                 "status" => "201"
             ]);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return response([
                 "message" => "Không thành công !",
                 "status" => "500"
@@ -105,8 +104,7 @@ class DepartmentController extends Controller
                 "message" => "Cập nhật thông tin phòng ban thành công",
                 "status" => "201"
             ]);
-        }catch (\Exception $e)
-        {
+        }catch (\Exception $e) {
             return response([
                 "message"=>"Cập nhật không thành công",
                 "status"=>"500"
@@ -128,31 +126,11 @@ class DepartmentController extends Controller
             return response([
                "message" => "Xoa phong ban thanh cong"
             ]);
-        }catch (\Exception $e)
-        {
+        }catch (\Exception $e) {
             return response([
                 "message"=>"Xoa phong ban that bai"
             ]);
         }
     }
-
-//    public function updateDepartment(UpdateDepartmentRequest $request, $id, Department $department)
-//    {
-//        $this->authorize('updateDepartmentPolicy', $department);
-//
-//        try {
-//            $this->departmentRepo->updateDepartment($request, $id);
-//            return response([
-//                "message" => "Cập nhật thông tin phòng ban thành công",
-//                "status" => "201"
-//            ]);
-//        }catch (\Exception $e)
-//        {
-//            return response([
-//                "message"=>"Cập nhật không thành công",
-//                "status"=>"500"
-//            ]);
-//        }
-//    }
 
 }

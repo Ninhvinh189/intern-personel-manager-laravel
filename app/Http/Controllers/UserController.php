@@ -39,29 +39,24 @@ class UserController extends Controller
             return response([
                "message" => "update thanh cong"
             ]);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return response([
-                "message"=>"update that bai",
-                "status"=>500
+                "message" =>" update that bai"
             ]);
         }
     }
 
     public function updateDepartment(UpdateDepartmentUserRequest $request, $id)
     {
-
         $this->authorize('updateDepartmentPolicy', User::class);
         try {
             $this->userRepo->updateDepartmentUser($request,$id);
             return response([
                 "message" => "update thanh cong"
             ]);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return response([
-                "message"=>"update that bai",
-                "status"=>500
+                "message" => "update that bai"
             ]);
         }
     }
@@ -69,12 +64,15 @@ class UserController extends Controller
     public function updateRole(UpdateRoleUserRequest $request, $id)
     {
         $this->authorize('updateRoleUserPolicy', User::class);
-
         try {
             $this->userRepo->updateRoleUser($request,$id);
-        }catch (\Exception $e)
-        {
-
+            return response([
+                "message" => "Them quyen thanh cong"
+            ]);
+        }catch (\Exception $e) {
+            return response([
+                "message" => "Them quyen that bai"
+            ]);
         }
 
     }

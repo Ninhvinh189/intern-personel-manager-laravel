@@ -2,11 +2,15 @@
 
 namespace App\Repositories;
 
+use App\Models\Department;
 use App\Models\User;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Mockery\Exception;
+use PharIo\Manifest\ElementCollectionException;
+use function PHPUnit\Framework\throwException;
 
 class UserRepository extends BaseRepository
 {
@@ -56,8 +60,14 @@ class UserRepository extends BaseRepository
         DB::beginTransaction();
         try{
             $user = $this->find($id);
-            $user->departments()->sync($request->department);
-            DB::commit();
+            $checkDepartmentExist = Department::where('id','=',$request->department)->exists();
+            if ($checkDepartmentExist)
+            {
+                $user->departments()->sync($request->department);
+                DB::commit();
+            } else{
+                throw new \Exception();
+            }
         }catch (Exception $e)
         {
             DB::rollBack();
@@ -67,12 +77,16 @@ class UserRepository extends BaseRepository
 
     public function updateRoleUser($request, $id)
     {
-
         DB::beginTransaction();
         try{
             $user = $this->find($id);
-            $user->roles()->sync($request->role);
-            DB::commit();
+            if (Role::where('id','=',$request->role)->exists())
+            {
+                $user->roles()->sync($request->role);
+                DB::commit();
+            } else {
+                throw new \Exception();
+            }
         }catch (Exception $e)
         {
             DB::rollBack();
@@ -99,10 +113,8 @@ class UserRepository extends BaseRepository
 
     }
 
-
     public function checkLeaderUser($id)
     {
-
         $department =  $this->find($id)->departments()->first();
         $departmentAuth = auth()->user()->departments()->first();
         return $departmentAuth->id == $department->id;

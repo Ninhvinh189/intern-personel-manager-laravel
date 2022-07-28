@@ -18,7 +18,11 @@ class RoleRepository extends BaseRepository
 
         DB::beginTransaction();
         try {
-            $role = $this->model->fill($request->all());
+            $param = [
+              'name' => $request->name,
+              'description' => $request->description
+            ];
+            $role = $this->model->fill($param);
             $this->create($role->toArray());
             DB::commit();
         }catch (Exception $e)

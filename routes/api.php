@@ -58,25 +58,3 @@ Route::group(['middleware'=>['jwt']],function ()
 });
 
 
-
-//Route::group(["prefix"=>"/admin",'middleware' => ['jwt']],function()
-//{
-//   Route::group(["prefix"=>"/department"],function()
-//   {
-//       Route::get("/list",[\App\Http\Controllers\DepartmentController::class,'index']);
-//       Route::post("/create",[\App\Http\Controllers\DepartmentController::class,'store']);
-//       Route::post("/update/{department}",[\App\Http\Controllers\DepartmentController::class,'update']);
-//   });
-//});
-//
-//
-//Route::group(["prefix" => "/user"],function()
-//{
-//    Route::get("/list",[\App\Http\Controllers\UserController::class,'index']);
-//   Route::post("/update/{user}",[\App\Http\Controllers\UserController::class,'updateProfile']);
-//   Route::post("/update-department/{user}",[\App\Http\Controllers\UserController::class,'updateDepartment']);
-//   Route::post("/update-role/{user}",[\App\Http\Controllers\UserController::class,'updateRole']);
-//   Route::delete("/destroy-user/{user}",[\App\Http\Controllers\UserController::class,'destroyUser']);
-//});
-
-

@@ -92,10 +92,4 @@ class DepartmentPolicy
         //
     }
 
-
-//    public function updateDepartmentPolicy(User $user, Department $department)
-//    {
-//        return auth()->user()->roles()->first()->name == 'admin';
-//    }
-
 }

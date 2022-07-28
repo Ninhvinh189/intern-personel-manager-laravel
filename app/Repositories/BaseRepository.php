@@ -23,7 +23,7 @@ abstract class BaseRepository
 
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     public function create($attributes = [])
