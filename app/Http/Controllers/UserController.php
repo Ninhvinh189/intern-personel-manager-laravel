@@ -6,11 +6,13 @@ use App\Http\Requests\UpdateDepartmentUserRequest;
 use App\Http\Requests\UpdateRoleUserRequest;
 use App\Http\Requests\UserProfileRequest;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Department;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -23,12 +25,41 @@ class UserController extends Controller
 
     public function index()
     {
-        return $this->userRepo->getAll();
+        return $this->userRepo->getListUser();
+    }
+
+    public function findUser($id)
+    {
+        try {
+            return $this->userRepo->findUser($id);
+        } catch (\Exception $e)
+        {
+            return response([
+                "status" => 500
+            ]);
+        }
+    }
+
+    public function createUser(UserRequest $request)
+    {
+//        dd($request->all());
+        try{
+            $this->userRepo->createUser($request);
+            return response([
+                "status" => 200,
+                "message"=>"Them nhan vien thanh cong"
+            ]);
+        } catch (\Exception $e) {
+            return response([
+               "status" => 500,
+                "message" => "Them nhan vien that bai"
+            ]);
+        }
+
     }
 
     public function updateProfile(UserProfileRequest $request, $id)
     {
-
         $user_res = $this->userRepo->find($id);
         $leader = $this->userRepo->checkLeaderUser($id);
 
@@ -42,6 +73,20 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response([
                 "message" =>" update that bai"
+            ]);
+        }
+    }
+
+    public function updateAvatar(Request  $request, $id)
+    {
+        try {
+            $this->userRepo->updateAvatar($request,$id);
+            return response([
+                "message" => "Cap nha avatar thanh cong"
+            ]);
+        }catch (\Exception $e) {
+            return response([
+               "message" => "Cap nhat avatar that bai"
             ]);
         }
     }
@@ -79,7 +124,7 @@ class UserController extends Controller
 
     public function destroyUser($id)
     {
-        $user_res = $this->userRepo->find($id);
+
         $leader = $this->userRepo->checkLeaderUser($id);
 
         $this->authorize('deleteUserPolicy', [User::class, $leader]);

@@ -27,7 +27,6 @@ class UpdateDepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'number_of_member' => 'required',
             'description'=>'required|max:200'
         ];
     }

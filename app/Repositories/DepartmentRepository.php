@@ -19,7 +19,7 @@ class DepartmentRepository extends BaseRepository
         try {
             $param = [
                 'name' => $request->name,
-                'number_of_member' => $request->number_of_member,
+                'number_of_member' => 0,
                 'description' => $request->description
             ];
             $fillData = $this->model->fill($param);
@@ -38,7 +38,6 @@ class DepartmentRepository extends BaseRepository
     {
         $param = [
             'name' => $request->name,
-            'number_of_member' => $request->number_of_member,
             'description' => $request->description
         ];
         $fillData = $this->model->fill($param);

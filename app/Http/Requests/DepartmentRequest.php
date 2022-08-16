@@ -27,7 +27,6 @@ class DepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required | unique:departments,name',
-            'number_of_member' => 'required',
             'description'=>'required|max:200'
         ];
     }

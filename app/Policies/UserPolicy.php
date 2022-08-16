@@ -125,6 +125,7 @@ class UserPolicy
     public function deleteUserPolicy(User $user, $leader)
     {
         $check = $user->roles()->first();
+
         if ($check->name == 'leader' && $leader==true)
         {
             return true;

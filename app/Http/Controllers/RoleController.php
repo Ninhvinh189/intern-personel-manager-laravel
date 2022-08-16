@@ -19,15 +19,30 @@ class RoleController extends Controller
 //        $this->authorizeResource(Role::class);
     }
 
-    protected function resourceAbilityMap()
-    {
-        return array_merge(parent::resourceAbilityMap(), [
-            'index' => 'view',
-            'store' => 'create',
-            'destroy' => 'delete',
-        ]);
-    }
+//    protected function resourceAbilityMap(): array
+//    {
+//        return array_merge(parent::resourceAbilityMap(), [
+//            'index' => 'view',
+//            'store' => 'create',
+//            'destroy' => 'delete',
+//        ]);
+//    }
 
+    public function update($id, RoleRequest $request)
+    {
+        try {
+            $this->roleRepo->updateRole($id, $request);
+            return response([
+               'status' => 200,
+               'message' => 'Update quyen thanh cong'
+            ]);
+        }catch (\Exception $e){
+            return response([
+                'status' => 500,
+                'message' => 'Update quyen that bai'
+            ]);
+        }
+    }
     public function index()
     {
         return $this->roleRepo->getAll();
@@ -50,7 +65,7 @@ class RoleController extends Controller
     public function destroy($id)
     {
         try {
-            $this->roleRepo->delete($id);
+            $this->roleRepo->deleteRole($id);
             return response([
                 "message" => "Xoa quyen thanh cong"
             ]);

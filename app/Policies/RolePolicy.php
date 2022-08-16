@@ -13,16 +13,14 @@ class RolePolicy
     /**
      * Create a new policy instance.
      *
-     * @return void
+     * @return bool
      */
-    public function __construct()
-    {
-        //
-    }
+
 
     public function view(User $user)
     {
-        return true;
+
+        dd(2);
     }
     public function create(User $user)
     {
