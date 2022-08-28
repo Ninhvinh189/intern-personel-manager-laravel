@@ -3,8 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Role;
+use http\Client\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Exception;
+use function PHPUnit\Framework\throwException;
 
 class RoleRepository extends BaseRepository
 {
@@ -33,12 +36,21 @@ class RoleRepository extends BaseRepository
 
     public function updateRole($id, $request)
     {
-        $param = [
-            'name' => $request->name,
-            'description' => $request->description
-        ];
-        $fillData = $this->model->fill($param);
-        $this->update($id,$fillData->toArray());
+        $countRoles = Role::query()->where('name',$request->name)->get();
+        try {
+            if (count($countRoles) < 1){
+                $param = [
+                    'name' => $request->name,
+                    'description' => $request->description
+                ];
+                $fillData = $this->model->fill($param);
+                $this->update($id,$fillData->toArray());
+            }else{
+                throw new Exception();
+            }
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function deleteRole($id)

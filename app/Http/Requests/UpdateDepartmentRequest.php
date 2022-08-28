@@ -25,14 +25,23 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('department');
         return [
-            'name' => 'required',
-            'description'=>'required|max:200'
+//            'name' => 'required',
+            'name' => 'required | unique:departments,name,'.$id.',id',
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Phòng ban đã tồn tại !',
+            'name.required' => 'Vui lòng nhập tên phòng ban !'
+        ];
     }
 }

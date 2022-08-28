@@ -25,12 +25,14 @@ class UserProfileRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('user');
         return [
             'firstName'=>'required',
             'lastName'=>'required',
             'date_of_birth' => 'required',
             'address' => 'required',
-            'phone' => 'required | max:10'
+//            'phone' => 'required | max:10'
+            'phone' => 'required | unique:profiles,phone,'.$id.',user_id',
         ];
     }
 
@@ -38,5 +40,16 @@ class UserProfileRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
+
+    public function messages()
+    {
+        return [
+            'firstName.required'=>'Tên người dùng chưa được nhập',
+            'lastName.required'=>'Tên người dùng chưa được nhập',
+            'address.required' => 'Cần nhập địa chỉ',
+            'phone.unique' => 'Số điện thoại đã tồn tại !!!'
+        ];
+    }
+
 
 }

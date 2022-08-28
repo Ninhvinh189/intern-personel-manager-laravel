@@ -17,7 +17,7 @@ class CreateDepartmentsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('number_of_member')->default(0);
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

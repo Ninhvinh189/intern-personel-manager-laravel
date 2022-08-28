@@ -32,7 +32,9 @@ class UserRequest extends FormRequest
             'email'=>'required|email|unique:users,email',
             'date_of_birth' => 'required',
             'address' => 'required',
-            'phone' => 'required | max:10| unique:profiles,phone'
+            'phone' => 'required | max:10| unique:profiles,phone',
+            'department' => 'required',
+            'role' => 'required'
         ];
     }
 
@@ -40,4 +42,16 @@ class UserRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
+    public function messages()
+    {
+        return [
+            'firstName.required'=>'Tên người dùng chưa được nhập !',
+            'lastName.required'=>'Tên người dùng chưa được nhập !',
+            'address.required' => 'Cần nhập địa chỉ !',
+            'phone.unique' => 'Số điện thoại đã tồn tại !',
+            'phone.min' => 'Số điện thoại không hợp lệ !',
+            'phone.max' => 'Số điện thoại không hợp lệ !'
+        ];
+    }
+
 }

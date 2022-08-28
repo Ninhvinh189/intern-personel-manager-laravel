@@ -25,14 +25,22 @@ class RoleRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('role');
         return [
             'name'=>'required|unique:roles,name',
-            'description'=>'required'
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Chức vụ đã tồn tại !',
+            'name.required' => 'Vui lòng nhập tên chức vụ !'
+        ];
     }
 }

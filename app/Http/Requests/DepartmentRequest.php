@@ -27,13 +27,21 @@ class DepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required | unique:departments,name',
-            'description'=>'required|max:200'
+//            'description'=>'required|max:200'
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Phòng ban đã tồn tại !',
+            'name.required' => 'Vui lòng nhập tên phòng ban !'
+        ];
     }
 
 }
